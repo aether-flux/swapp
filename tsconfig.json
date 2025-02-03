@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                         // Set ECMAScript version
+    "module": "commonjs",                    // Use CommonJS module resolution
+    "esModuleInterop": true,                 // Enable importing non-ESM modules
+    "strict": true,                          // Enable strict type checking options
+    "outDir": "./dist",                      // Output compiled JS to the 'dist' folder
+    "resolveJsonModule": true                // Allow importing JSON files as modules
+  },
+  "include": ["src/**/*.ts"],                 // Include all .ts files under the 'src' directory
+  "exclude": ["node_modules"]                 // Exclude node_modules
+}
