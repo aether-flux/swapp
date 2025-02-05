@@ -10,8 +10,10 @@ Currently, Swapp.js supports **MongoDB** and **Supabase**. More databases are un
 ## Installation
 Swapp.js can be installed simply by using the Node Package Manager (npm):
 ```
-npm install swapp
+npm install swapp --legacy-peer-deps
 ```
+
+**Note:** By default, npm v7+ installs peerDependencies by default. To prevent this, use --legacy-peer-deps as above. Otherwise, it would install all peerDependencies automatically, like mongodb, @supabase/supabase-js and all the supported databases' packages.
 
 ## Configuring a Database
 #### MongoDB
