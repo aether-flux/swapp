@@ -8,39 +8,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoDb = void 0;
 const delete_1 = require("../queries/delete");
 const get_1 = require("../queries/get");
 const save_1 = require("../queries/save");
 const update_1 = require("../queries/update");
+const path_1 = __importDefault(require("path"));
 class MongoDb {
+    // New MongoDB setup
     constructor(config) {
         try {
-            const { MongoClient } = require('mongodb');
-            this.client = new MongoClient(config.connectionString);
+            const { MongoClient } = require(path_1.default.resolve(process.cwd(), 'node_modules/mongodb')); // Import mongodb from user's directory
+            this.client = new MongoClient(config.connectionString); // Create a new client
             this.dbName = config.dbName;
         }
         catch (e) {
             throw new Error('MongoDB is missing. Run: npm install mongodb');
         }
     }
+    // Connect the database
     connect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.client.connect();
-                console.log(`MongoDB connected. DB: ${this.dbName}`);
             }
             catch (e) {
                 console.error(`Failed to connect to MongoDB: ${e}`);
             }
         });
     }
+    // Crud Operation
     save(collection, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield (0, save_1.saveQuery)({ type: 'mongodb', client: this.client, dbName: this.dbName }, data, collection);
-                console.log(`Data saved: ${result}`);
                 return result;
             }
             catch (error) {
@@ -48,11 +53,11 @@ class MongoDb {
             }
         });
     }
+    // cRud Operation
     get(collection, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield (0, get_1.getQuery)({ type: 'mongodb', client: this.client, dbName: this.dbName }, collection, query);
-                console.log(`Data fetched: ${result}`);
                 return result;
             }
             catch (error) {
@@ -60,11 +65,11 @@ class MongoDb {
             }
         });
     }
+    // crUd Operation
     update(collection, query, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield (0, update_1.updateQuery)({ type: 'mongodb', client: this.client, dbName: this.dbName }, data, collection, query);
-                console.log('Data updated: ', result);
                 return result;
             }
             catch (e) {
@@ -72,11 +77,11 @@ class MongoDb {
             }
         });
     }
+    // cruD Operation
     delete(collection, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield (0, delete_1.deleteQuery)({ type: 'mongodb', client: this.client, dbName: this.dbName }, collection, query);
-                console.log("Data deleted: ", result);
                 return result;
             }
             catch (e) {

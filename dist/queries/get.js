@@ -14,16 +14,16 @@ const parser_1 = require("../utils/parser");
 const getQuery = (db, collection, query) => __awaiter(void 0, void 0, void 0, function* () {
     let result;
     let fq;
+    // For MongoDB
     if (db.type === 'mongodb') {
-        fq = query ? (0, parser_1.abstractQuery)(query, 'mongodb') : null;
-        console.log(`Parsed query: ${fq}`);
-        result = fq ? yield db.client.db(db.dbName).collection(collection).find(fq.query).toArray() : yield db.client.db(db.dbName).collection(collection).find().toArray();
+        fq = query ? (0, parser_1.abstractQuery)(query, 'mongodb') : null; // Get MongoDB style query
+        result = fq ? yield db.client.db(db.dbName).collection(collection).find(fq.query).sort(fq.sort).toArray() : yield db.client.db(db.dbName).collection(collection).find().toArray(); // Perform Read Operation
+        // For Supabase
     }
     else if (db.type === 'supabase') {
-        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null;
+        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null; // Get Supabase style query
         fq = fq;
-        console.log(`Parsed query: ${JSON.stringify(fq, null, 2)}`);
-        let supabaseQuery = db.client.from(collection).select("*");
+        let supabaseQuery = db.client.from(collection).select("*"); // Base query for operation
         // Apply filters
         if (fq && fq.filters) {
             fq.filters.forEach((filter) => {
@@ -34,14 +34,12 @@ const getQuery = (db, collection, query) => __awaiter(void 0, void 0, void 0, fu
         if (fq.orderBy) {
             supabaseQuery = supabaseQuery.order(fq.orderBy.field, { ascending: fq.orderBy.direction === 'ASC' });
         }
-        let { data, error } = yield supabaseQuery;
+        let { data, error } = yield supabaseQuery; // Perform the Read Operation
         result = data;
         if (error) {
-            console.error("Supabase Error:", JSON.stringify(error, null, 2));
             throw error;
         }
         else if (!data) {
-            console.error("Supabase returned no data and no error. Possible issue with the query.");
             throw new Error("No data returned, but no error provided.");
         }
     }

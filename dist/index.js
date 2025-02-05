@@ -11,8 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Swapp = void 0;
 class Swapp {
+    // Defining a new database
     constructor(options) {
-        this.dbType = options.dbType;
+        this.dbType = options.provider;
         this.dbConfig = options.config;
         if (this.dbType === 'mongodb') {
             const { MongoDb } = require('./databases/mongo');
@@ -25,10 +26,9 @@ class Swapp {
         else {
             throw new Error('Unsupported database type.');
         }
-        // Initialize the required database
-        // this.initializeDB();
     }
-    initializeDb() {
+    // Initialize the database
+    initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.dbClient) {
                 throw new Error("Database client does not exist.");
@@ -36,15 +36,17 @@ class Swapp {
             yield this.dbClient.connect();
         });
     }
-    save(data, collection) {
+    // Save/Create Operation (Crud)
+    save(collection, data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.dbClient) {
                 throw new Error("Database client is not initialized. Use 'await (new Swapp({...}).initializeDb())'");
             }
-            let saveData = yield this.dbClient.save(data, collection);
+            let saveData = yield this.dbClient.save(collection, data);
             return saveData;
         });
     }
+    // Get/Read Operation (cRud)
     get(collection, query) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.dbClient) {
@@ -54,6 +56,7 @@ class Swapp {
             return getData;
         });
     }
+    // Update Operation (crUd)
     update(collection, query, data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.dbClient) {
@@ -63,6 +66,7 @@ class Swapp {
             return updateData;
         });
     }
+    // Delete Operation (cruD)
     delete(collection, query) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.dbClient) {

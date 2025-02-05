@@ -3,7 +3,6 @@ function parseQuery (query: string) {
   const orderRx = /ORDER BY (\w+)\s*(ASC|DESC)?/i;
 
   // WHERE clause
-
   const filters = [];
   let match: any;
 
@@ -28,6 +27,7 @@ function parseQuery (query: string) {
   return {filters, orderBy};
 }
 
+// Convert parsed query to MongoDB syntax
 function toMongoQuery (parsedQuery: any) {
   const mq: any = {};
 
@@ -63,6 +63,7 @@ function toMongoQuery (parsedQuery: any) {
   }
 }
 
+// Convert parsed query to Supabase syntax
 function toSupabaseQuery (parsedQuery: any) {
   const operatorMap: any = {
     "=": "eq",
@@ -85,6 +86,7 @@ function toSupabaseQuery (parsedQuery: any) {
   };
 }
 
+// Function to get query of chosen database's syntax
 export function abstractQuery (query: string, dbType: string) {
   if (dbType === 'mongodb') {
     return toMongoQuery(parseQuery(query));

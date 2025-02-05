@@ -14,22 +14,22 @@ const parser_1 = require("../utils/parser");
 const updateQuery = (db, data, collection, query) => __awaiter(void 0, void 0, void 0, function* () {
     let result;
     let fq;
+    // For MongoDB
     if (db.type === 'mongodb') {
-        fq = query ? (0, parser_1.abstractQuery)(query, 'mongodb') : null;
-        console.log('Parsed query: ', fq);
-        result = yield db.client.db(db.dbName).collection(collection).updateMany(fq === null || fq === void 0 ? void 0 : fq.query, { $set: data });
+        fq = query ? (0, parser_1.abstractQuery)(query, 'mongodb') : null; // Get MongoDB style query
+        result = yield db.client.db(db.dbName).collection(collection).updateMany(fq === null || fq === void 0 ? void 0 : fq.query, { $set: data }); // Perform Update Operation
+        // For Supabase
     }
     else if (db.type === 'supabase') {
-        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null;
-        console.log('Parsed query: ', fq);
-        let supabaseQuery = db.client.from(collection).update(data);
+        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null; // Get Supabase style query
+        let supabaseQuery = db.client.from(collection).update(data); // Base query for operation
+        // Apply filters
         fq === null || fq === void 0 ? void 0 : fq.filters.forEach((filter) => {
             supabaseQuery = supabaseQuery.filter(filter.field, filter.operator, filter.value);
         });
-        const { data: resD, error } = yield supabaseQuery;
+        const { data: resD, error } = yield supabaseQuery; // Perform the Create Operation
         result = resD;
         if (error) {
-            console.error("Supabase Error:", JSON.stringify(error, null, 2));
             throw error;
         }
     }

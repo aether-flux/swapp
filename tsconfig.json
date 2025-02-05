@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",                         // Set ECMAScript version
-    "module": "commonjs",                    // Use CommonJS module resolution
+    "module": "CommonJS",                    // Use CommonJS module resolution
     "esModuleInterop": true,                 // Enable importing non-ESM modules
     "strict": true,                          // Enable strict type checking options
     "outDir": "./dist",                      // Output compiled JS to the 'dist' folder

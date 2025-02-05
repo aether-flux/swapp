@@ -5,9 +5,10 @@ export class Swapp {
   private dbType: string;
   private dbConfig: Record<string, any>;
   private dbClient: any;
-
-  constructor (options: {dbType: string, config: Record<string, any>}) {
-    this.dbType = options.dbType;
+  
+  // Defining a new database
+  constructor (options: {provider: string, config: Record<string, any>}) {
+    this.dbType = options.provider;
     this.dbConfig = options.config;
 
     if (this.dbType === 'mongodb') {
@@ -19,18 +20,17 @@ export class Swapp {
     } else {
       throw new Error('Unsupported database type.');
     }
-
-    // Initialize the required database
-    // this.initializeDB();
   }
 
-  private async initializeDb () {
+  // Initialize the database
+  private async initialize () {
     if (!this.dbClient) {
       throw new Error("Database client does not exist.");
     }
     await this.dbClient.connect();
   }
 
+  // Save/Create Operation (Crud)
   public async save (collection: string, data: object) {
     if (!this.dbClient) {
       throw new Error("Database client is not initialized. Use 'await (new Swapp({...}).initializeDb())'");
@@ -40,6 +40,7 @@ export class Swapp {
     return saveData;
   }
 
+  // Get/Read Operation (cRud)
   public async get (collection: string, query?: string) {
     if (!this.dbClient) {
       throw new Error("Database client is not initialized. Use 'await (new Swapp({...}).initializeDb())'");
@@ -49,6 +50,7 @@ export class Swapp {
     return getData;
   }
 
+  // Update Operation (crUd)
   public async update (collection: string, query: string, data: object) {
     if (!this.dbClient) {
       throw new Error("Database client is not initialized. Use 'await (new Swapp({...}).initializeDb())");
@@ -58,6 +60,7 @@ export class Swapp {
     return updateData;
   }
 
+  // Delete Operation (cruD)
   public async delete (collection: string, query: string) {
     if (!this.dbClient) {
       throw new Error("Database client is not initialized. Use 'await (new Swapp({...}).initializeDb())'");

@@ -23,6 +23,7 @@ function parseQuery(query) {
     const orderBy = orderByMatch ? { field: orderByMatch[1], direction: orderByMatch[2] || 'ASC' } : null;
     return { filters, orderBy };
 }
+// Convert parsed query to MongoDB syntax
 function toMongoQuery(parsedQuery) {
     const mq = {};
     // WHERE clause
@@ -55,6 +56,7 @@ function toMongoQuery(parsedQuery) {
         sort: parsedQuery.orderBy ? { [parsedQuery.orderBy.field]: parsedQuery.orderBy.direction === 'ASC' ? 1 : -1 } : null
     };
 }
+// Convert parsed query to Supabase syntax
 function toSupabaseQuery(parsedQuery) {
     const operatorMap = {
         "=": "eq",
@@ -74,6 +76,7 @@ function toSupabaseQuery(parsedQuery) {
         orderBy: parsedQuery.orderBy ? parsedQuery.orderBy : null
     };
 }
+// Function to get query of chosen database's syntax
 function abstractQuery(query, dbType) {
     if (dbType === 'mongodb') {
         return toMongoQuery(parseQuery(query));

@@ -15,21 +15,24 @@ const deleteQuery = (db, collection, query) => __awaiter(void 0, void 0, void 0,
     var _a;
     let result;
     let fq;
+    // For MongoDB
     if (db.type === 'mongodb') {
-        fq = query ? (0, parser_1.abstractQuery)(query, "mongodb") : null;
+        fq = query ? (0, parser_1.abstractQuery)(query, "mongodb") : null; // Get MongoDB style query
         if (!fq || !(fq === null || fq === void 0 ? void 0 : fq.query))
             throw new Error("Invalid or missing query for deletion.");
-        result = yield db.client.db(db.dbName).collection(collection).deleteMany(fq.query);
+        result = yield db.client.db(db.dbName).collection(collection).deleteMany(fq.query); // Perform Delete Operation
+        // For Supabase
     }
     else if (db.type === 'supabase') {
-        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null;
+        fq = query ? (0, parser_1.abstractQuery)(query, 'supabase') : null; // Get Supabase style query
         if (!((_a = fq === null || fq === void 0 ? void 0 : fq.filters) === null || _a === void 0 ? void 0 : _a.length))
             throw new Error("Invalid or missing query for deletion.");
-        let supabaseQuery = db.client.from(collection).delete();
+        let supabaseQuery = db.client.from(collection).delete(); // Base query for operation
+        // Apply filters
         fq.filters.forEach((filter) => {
             supabaseQuery = supabaseQuery.filter(filter.field, filter.operator, filter.value);
         });
-        const { data, error } = yield supabaseQuery;
+        const { data, error } = yield supabaseQuery; // Perform the Delete Operation
         if (error)
             throw error;
         result = data;

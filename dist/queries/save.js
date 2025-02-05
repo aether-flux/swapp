@@ -10,15 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveQuery = void 0;
-const saveQuery = (db, data, collection) => __awaiter(void 0, void 0, void 0, function* () {
+const saveQuery = (db, data, collectionSt) => __awaiter(void 0, void 0, void 0, function* () {
     let result;
+    // For MongoDB
     if (db.type === 'mongodb') {
-        result = yield db.client.db(db.dbName).collection(collection).insertOne(data);
+        result = yield db.client.db(db.dbName).collection(collectionSt).insertOne(data); // Perform Create Operation
+        // For Supabase
     }
     else if (db.type === 'supabase') {
         const { data: resData, error } = db.schema
-            ? yield db.client.from(`${db.schema}.${collection}`).insert([data])
-            : yield db.client.from(collection).insert([data]);
+            ? yield db.client.from(`${db.schema}.${collectionSt}`).insert([data])
+            : yield db.client.from(collectionSt).insert([data]); // Perform Create Operation
         if (!error)
             throw new Error(`Supabase Insert Error: ${error}`);
         result = resData;
