@@ -1,3 +1,4 @@
+import { createRequire } from "module";
 import { SupabaseConfig } from "../interfaces/supabaseInterface";
 import { deleteQuery } from "../queries/delete";
 import { getQuery } from "../queries/get";
@@ -25,7 +26,11 @@ export class SupabaseDb {
   // Connect the database
   public async connect () {
     try {
-      const {createClient} = require(path.resolve(process.cwd(), '@supabase/supabase-js'));  // Import supabase from user's directory
+      // const {createClient} = require(path.resolve(process.cwd(), 'node_modules/@supabase/supabase-js'));  // Import supabase from user's directory
+      const { createClient } = await import("@supabase/supabase-js");
+      //
+      // const require = createRequire(import.meta.url); // Force require() in CommonJS
+      // const { createClient } = require("@supabase/supabase-js"); // Load Supabase
 
       // Create the Supabase client
       if (this.schema) {
@@ -39,7 +44,7 @@ export class SupabaseDb {
   }
 
   // Crud Operation
-  public async save (data: object, table: string) {
+  public async save (table: string, data: object) {
     try {
       let result;
       if (this.schema) {

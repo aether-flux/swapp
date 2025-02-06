@@ -21,8 +21,11 @@ const saveQuery = (db, data, collectionSt) => __awaiter(void 0, void 0, void 0, 
         const { data: resData, error } = db.schema
             ? yield db.client.from(`${db.schema}.${collectionSt}`).insert([data])
             : yield db.client.from(collectionSt).insert([data]); // Perform Create Operation
-        if (!error)
-            throw new Error(`Supabase Insert Error: ${error}`);
+        // if (error) throw new Error(`Supabase Insert Error: ${JSON.stringify(error, null, 2)}`);
+        //
+        if (error && Object.keys(error).length > 0) {
+            throw new Error(`Supabase Insert Error: ${JSON.stringify(error, null, 2)}`);
+        }
         result = resData;
     }
     else {

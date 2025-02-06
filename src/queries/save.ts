@@ -11,7 +11,12 @@ export const saveQuery = async (db: any, data: object, collectionSt: string) => 
       ? await db.client.from(`${db.schema}.${collectionSt}`).insert([data])
       : await db.client.from(collectionSt).insert([data]);  // Perform Create Operation
 
-    if (!error) throw new Error(`Supabase Insert Error: ${error}`);
+    // if (error) throw new Error(`Supabase Insert Error: ${JSON.stringify(error, null, 2)}`);
+    //
+    if (error && Object.keys(error).length > 0) {
+        throw new Error(`Supabase Insert Error: ${JSON.stringify(error, null, 2)}`);
+    }
+
     result = resData;
 
   } else {
