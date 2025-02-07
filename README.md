@@ -12,7 +12,7 @@ Swapp.js can be installed simply by using the Node Package Manager (npm):
 ```
 npm install swapp --legacy-peer-deps
 ```
-
+or
 ```
 yarn install swapp 
 ```
