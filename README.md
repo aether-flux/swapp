@@ -7,6 +7,8 @@ Forget about the hectic boilerplate copy-pasting for database setups. Swapp lets
 
 Currently, Swapp.js supports **MongoDB** and **Supabase**. More databases are under development and support will increase soon.
 
+[Swapp.js NPM Page](https://npmjs.com/package/swapp)
+
 ## Installation
 Swapp.js can be installed simply by using the Node Package Manager (npm):
 ```
