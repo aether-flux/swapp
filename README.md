@@ -7,7 +7,7 @@ Forget about the hectic boilerplate copy-pasting for database setups. Swapp lets
 
 Currently, Swapp.js supports **MongoDB** and **Supabase**. More databases are under development and support will increase soon.
 
-[Swapp.js NPM Page](https://npmjs.com/package/swapp)
+[Swapp.js NPM Page](https://www.npmjs.com/package/swapp.js)
 
 ## Installation
 Swapp.js can be installed simply by using the Node Package Manager (npm):
@@ -16,7 +16,7 @@ npm install swapp --legacy-peer-deps
 ```
 or
 ```
-yarn install swapp 
+yarn add swapp 
 ```
 
 **Note:** By default, npm v7+ installs peerDependencies by default. To prevent this, use --legacy-peer-deps as above. Otherwise, it would install all peerDependencies automatically, like mongodb, @supabase/supabase-js and all the supported databases' packages.
@@ -28,7 +28,7 @@ const db = new Swapp({
   provider: "mongodb",
   config: {
     connectionString: "<mongodb-connection-string>",
-	dbName: "<mongodb-database-name>"
+    dbName: "<mongodb-database-name>"
   }
 });
 await db.initialize();
@@ -40,7 +40,7 @@ const db = new Swapp({
   provider: "supabase",
   config: {
     supabaseKey: "<Supabase-Key>",
-	supabaseUrl: "<Supabase-URL>"
+    supabaseUrl: "<Supabase-URL>"
   }
 });
 await db.initialize();
