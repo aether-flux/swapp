@@ -1,9 +1,22 @@
 {
   "name": "swapp.js",
-  "version": "1.0.1",
-  "description": "",
-  "license": "ISC",
-  "author": "",
+  "version": "1.0.2",
+  "description": "An universal database adapter that simplifies DB setups and lets you use the same query language across both SQL and NoSQL databases.",
+  "license": "MIT",
+  "author": "Amartya Chowdhury (aether-flux)",
+  "keywords": ["database", "adapter", "SQL", "NoSQL", "Supabase", "MongoDB", "query", "nodejs", "node.js", "npm-package", "npm package", "swapp", "swappjs", "swapp.js"],
+  "homepage": "https://github.com/aether-flux/swappjs",
+  "bugs": {
+    "url": "https://github.com/aether-flux/swappjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aether-flux/swappjs"
+  },
+  "funding": {
+    "type": "buymeacoffee",
+    "url": "https://buymeacoffee.com/aetherflux"
+  },
   "type": "commonjs",
   "main": "dist/index.js",
   "scripts": {
